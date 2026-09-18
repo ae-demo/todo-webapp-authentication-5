@@ -1,0 +1,64 @@
+{
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "A User can sign in with their provisioned account to securely access their own todos",
+      "stories": [1],
+      "criteria": [
+        { "id": "AC-001-a", "must": "An unauthenticated visitor is directed to sign in before reaching the todo list", "method": "e2e" },
+        { "id": "AC-001-b", "must": "A signed-in user reaches their own todo list after authenticating", "method": "e2e" },
+        { "id": "AC-001-c", "must": "A user cannot access another user's todo items", "method": "e2e" }
+      ]
+    },
+    {
+      "id": "REQ-002",
+      "statement": "A User can add a new todo item with a title",
+      "stories": [2],
+      "criteria": [
+        { "id": "AC-002-a", "must": "Submitting a title creates a new todo item visible in the user's list", "method": "e2e" },
+        { "id": "AC-002-b", "must": "A newly created todo item starts as not completed", "method": "e2e" }
+      ]
+    },
+    {
+      "id": "REQ-003",
+      "statement": "A User can view all of their todo items, seeing what is outstanding and what is done",
+      "stories": [3],
+      "criteria": [
+        { "id": "AC-003-a", "must": "The todo list shows every todo item belonging to the signed-in user", "method": "e2e" },
+        { "id": "AC-003-b", "must": "Completed and incomplete items are visibly distinguishable in the list", "method": "e2e" }
+      ]
+    },
+    {
+      "id": "REQ-004",
+      "statement": "A User can mark a todo item as complete",
+      "stories": [4],
+      "criteria": [
+        { "id": "AC-004-a", "must": "Marking an incomplete todo item as complete updates its status", "method": "e2e" }
+      ]
+    },
+    {
+      "id": "REQ-005",
+      "statement": "A User can mark a completed todo item back as incomplete",
+      "stories": [5],
+      "criteria": [
+        { "id": "AC-005-a", "must": "Marking a completed todo item as incomplete updates its status back", "method": "e2e" }
+      ]
+    },
+    {
+      "id": "REQ-006",
+      "statement": "A User can delete a todo item they no longer need",
+      "stories": [6],
+      "criteria": [
+        { "id": "AC-006-a", "must": "Deleting a todo item removes it from the user's list", "method": "e2e" }
+      ]
+    },
+    {
+      "id": "REQ-007",
+      "statement": "A User can edit the title of an existing todo item",
+      "stories": [7],
+      "criteria": [
+        { "id": "AC-007-a", "must": "Editing a todo item's title saves the new title and displays it in the list", "method": "e2e" }
+      ]
+    }
+  ]
+}

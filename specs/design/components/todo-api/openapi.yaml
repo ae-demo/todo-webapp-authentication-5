@@ -1,0 +1,190 @@
+openapi: 3.0.3
+info:
+  title: Todo API
+  version: 0.1.0
+  description: Manages a signed-in user's private todo items.
+servers:
+  - url: /
+paths:
+  /me/todos:
+    get:
+      operationId: listMyTodos
+      summary: The caller's todo items
+      security:
+        - oauth2: [todos:read]
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20, maximum: 100 }
+        - name: offset
+          in: query
+          schema: { type: integer, default: 0 }
+        - name: completed
+          in: query
+          description: Filter by completion status
+          schema: { type: boolean }
+      responses:
+        '200':
+          description: A page of the caller's todo items
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [count, data]
+                properties:
+                  count: { type: integer, description: total matching items }
+                  next: { type: string, nullable: true, description: relative URI of the next page }
+                  previous: { type: string, nullable: true, description: relative URI of the previous page }
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/TodoItem' }
+        '401':
+          description: Not signed in
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+    post:
+      operationId: createMyTodo
+      summary: Create a new todo item for the caller
+      security:
+        - oauth2: [todos:submit]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateTodoItem' }
+      responses:
+        '201':
+          description: Todo item created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TodoItem' }
+        '400':
+          description: Invalid todo item
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '401':
+          description: Not signed in
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /me/todos/{todoId}:
+    parameters:
+      - name: todoId
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      operationId: getMyTodo
+      summary: A single todo item of the caller's
+      security:
+        - oauth2: [todos:read]
+      responses:
+        '200':
+          description: The requested todo item
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TodoItem' }
+        '404':
+          description: No such todo item for this caller
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '401':
+          description: Not signed in
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+    patch:
+      operationId: updateMyTodo
+      summary: Edit a todo item's title or completion status
+      security:
+        - oauth2: [todos:edit]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateTodoItem' }
+      responses:
+        '200':
+          description: Todo item updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TodoItem' }
+        '400':
+          description: Invalid update
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '404':
+          description: No such todo item for this caller
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '401':
+          description: Not signed in
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+    delete:
+      operationId: deleteMyTodo
+      summary: Delete a todo item of the caller's
+      security:
+        - oauth2: [todos:delete]
+      responses:
+        '204':
+          description: Todo item deleted
+        '404':
+          description: No such todo item for this caller
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '401':
+          description: Not signed in
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: /oauth2/authorize
+          tokenUrl: /oauth2/token
+          scopes:
+            todos:read: See the caller's own todo items
+            todos:submit: Create a new todo item
+            todos:edit: Edit a todo item's title or completion status
+            todos:delete: Delete a todo item
+  schemas:
+    TodoItem:
+      type: object
+      required: [id, title, completed, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        completed: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    CreateTodoItem:
+      type: object
+      required: [title]
+      properties:
+        title: { type: string }
+    UpdateTodoItem:
+      type: object
+      properties:
+        title: { type: string }
+        completed: { type: boolean }
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code: { type: integer, description: HTTP or application error code }
+        message: { type: string, description: short human-readable label }
+        description: { type: string, description: detailed explanation }
+        moreInfo: { type: string, description: URI to documentation }
+security:
+  - oauth2: []

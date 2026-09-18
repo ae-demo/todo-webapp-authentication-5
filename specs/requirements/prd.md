@@ -35,7 +35,7 @@ list; there is no shared or cross-user visibility.
 6. As a User, I want to delete a todo item, so that I can remove tasks I no
  longer need.
 7. As a User, I want to edit the title of an existing todo item, so that I
- can fix a typo or update its wording. *assumed*
+ can fix a typo or update its wording.
 
 ## Product Decisions
 

@@ -1,0 +1,30 @@
+{
+  "version": 3,
+  "permissions": [
+    {
+      "resource": "todos",
+      "component": "todo-api",
+      "description": "A user's own todo items",
+      "actions": [
+        { "handle": "read", "description": "The caller's own todo items" },
+        { "handle": "submit", "description": "Create a new todo item" },
+        { "handle": "edit", "description": "Edit a todo item's title or completion status" },
+        { "handle": "delete", "description": "Delete a todo item" }
+      ]
+    }
+  ],
+  "groups": [],
+  "roles": [
+    {
+      "name": "User",
+      "description": "Adds, views, completes and removes their own todo items.",
+      "stories": [1, 2, 3, 4, 5, 6, 7],
+      "grants": ["todos:read", "todos:submit", "todos:edit", "todos:delete"],
+      "assignTo": ["Users"]
+    }
+  ],
+  "testUsers": [
+    { "username": "test-user", "roles": ["User"] },
+    { "username": "test-user-2", "roles": ["User"] }
+  ]
+}

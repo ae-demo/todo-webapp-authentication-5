@@ -23,19 +23,19 @@ list; there is no shared or cross-user visibility.
 ## User Stories
 
 1. As a User, I want to sign in with my provisioned account, so that I can
- securely access my own todos.
+securely access my own todos.
 2. As a User, I want to add a new todo item with a title, so that I can track
- a task I need to do.
+a task I need to do.
 3. As a User, I want to view all of my todo items, so that I can see what is
- outstanding and what is already done.
+outstanding and what is already done.
 4. As a User, I want to mark a todo item as complete, so that I can see what
- I've finished.
+I've finished.
 5. As a User, I want to mark a completed todo item back as incomplete, so
- that I can correct a mistake.
+that I can correct a mistake.
 6. As a User, I want to delete a todo item, so that I can remove tasks I no
- longer need.
+longer need.
 7. As a User, I want to edit the title of an existing todo item, so that I
- can fix a typo or update its wording.
+can fix a typo or update its wording.
 
 ## Product Decisions
 
@@ -60,8 +60,8 @@ is no admin or shared oversight of another user's list.
 ## Open Questions
 
 1. What process or system provisions user accounts ahead of time (e.g. an
- admin console, a separate onboarding process)? — deferred: out of scope
- for this product; account provisioning happens outside this application.
+admin console, a separate onboarding process)? — deferred: out of scope
+for this product; account provisioning happens outside this application.
 
 ## Further Notes
 
